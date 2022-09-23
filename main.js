@@ -11,6 +11,8 @@ const FULL_HEART = '♥'
 // Don't change the code below: this function mocks the server response
 //------------------------------------------------------------------------------
 
+document.querySelector("#modal").classList.add("hidden")
+
 function mimicServerCall(url="http://mimicServer.example.com", config={}) {
   return new Promise(function(resolve, reject) {
     setTimeout(function() {
@@ -22,4 +24,23 @@ function mimicServerCall(url="http://mimicServer.example.com", config={}) {
       }
     }, 300);
   });
+}
+
+const liking = document.getElementsByClassName("like-glyph")
+
+for (const element of liking){
+  element.addEventListener("click", e => {
+    mimicServerCall()
+    .then(() => {
+      if (e.target.textContent === EMPTY_HEART){
+        e.target.textContent = FULL_HEART
+        e.target.classList.add("activated-heart")
+      }
+      else {
+        e.target.textContent = EMPTY_HEART
+        e.target.classList.remove("activated-heart")
+      }
+    })
+    .catch(error => alert(error))
+  })
 }
